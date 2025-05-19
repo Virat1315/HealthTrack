@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { logger } from './core/utils/logger';
+import { DeviceProvider } from './context/DeviceContext';
 
 // Initialize the application
 const initializeApp = () => {
@@ -15,7 +16,9 @@ const initializeApp = () => {
     const root = createRoot(rootElement);
     root.render(
       <StrictMode>
-        <App />
+        <DeviceProvider>
+          <App />
+        </DeviceProvider>
       </StrictMode>
     );
 

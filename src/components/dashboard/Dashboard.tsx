@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useDevice } from '../../context/DeviceContext';
+import ConnectDevice from '../common/ConnectDevice';
 
 interface Report {
   id: string;
@@ -12,6 +14,7 @@ interface Report {
 const Dashboard: React.FC = () => {
   console.log("Dashboard");
   const { user, logout } = useAuth();
+  const { connectedDevices } = useDevice();
   const [reports, setReports] = useState<Report[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [patientName, setPatientName] = useState('');
@@ -54,6 +57,26 @@ const Dashboard: React.FC = () => {
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Device Connection Section */}
+        <div className="bg-white shadow sm:rounded-lg p-6 mb-8">
+          <h2 className="text-lg font-medium mb-4">Connect Health Devices</h2>
+          <div className="flex items-center space-x-4">
+            <ConnectDevice />
+            {connectedDevices.length > 0 && (
+              <div className="ml-4">
+                <h3 className="text-sm font-medium text-gray-700">Connected Devices:</h3>
+                <ul className="mt-2 space-y-2">
+                  {connectedDevices.map((device) => (
+                    <li key={device.id} className="text-sm text-gray-600">
+                      {device.name} - {device.status}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+
         <div className="bg-white shadow sm:rounded-lg p-6 mb-8">
           <h2 className="text-lg font-medium mb-4">Upload Patient Report</h2>
           <form onSubmit={handleFileUpload} className="space-y-4">

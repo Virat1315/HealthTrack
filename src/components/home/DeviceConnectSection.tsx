@@ -1,7 +1,17 @@
 import React from 'react';
 import { Smartphone, Watch, Bluetooth, Check } from 'lucide-react';
+import { useDevice } from '../../context/DeviceContext';
+import ConnectDevice from '../common/ConnectDevice';
 
 export default function DeviceConnectSection() {
+  const { connectDevice } = useDevice();
+
+  const handleDeviceConnect = (deviceId: string) => {
+    // In a real application, you would also get the device name 
+    // and type from the Bluetooth API
+    connectDevice(deviceId, 'Unknown Device'); 
+  };
+
   return (
     <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -69,10 +79,7 @@ export default function DeviceConnectSection() {
         </div>
 
         <div className="mt-12 text-center">
-          <button className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors">
-            Connect Your Devices
-            <Bluetooth className="ml-2 h-5 w-5" />
-          </button>
+          <ConnectDevice onConnect={handleDeviceConnect} />
           <p className="mt-4 text-sm text-gray-500">
             Compatible with most modern smartwatches and smartphones
           </p>
